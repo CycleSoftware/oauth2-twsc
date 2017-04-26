@@ -1,6 +1,7 @@
 <?php
 namespace League\OAuth2\Client\Test\Provider;
 
+use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\TwscResourceOwner;
 use Mockery as m;
 
@@ -173,5 +174,17 @@ class TwscTest extends \PHPUnit_Framework_TestCase
 
         $this->provider->setHttpClient($client);
         $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+    }
+
+    public function test_post_something()
+    {
+        $twsc = new Twsc();
+        $twsc->post_something('', null, '');
+    }
+
+    public function test_put_something()
+    {
+        $twsc = new Twsc();
+        $twsc->put_something('', null, '');
     }
 }

@@ -62,6 +62,25 @@ class Twsc extends AbstractProvider
         return $this->base_twsc_oauth2_url . '/oauth/token';
     }
 
+
+    public function post_something(string $uri, $token, string $body)
+    {
+        $uri = 'http://5m-2.dev.accounts.twsc.nl/oauth/test_server';
+        $options['body'] = 'hello';
+        $request = $this->createRequest(self::METHOD_POST, $uri, $token, $options);
+        $response = $this->getResponse($request);
+        $contents = $response->getBody()->getContents();
+        echo $contents;
+    }
+
+    public function put_something(string $uri, $token, string $body)
+    {
+        $uri = 'http://5m-2.dev.accounts.twsc.nl/oauth/test_server';
+        $options['body'] = json_encode(['a'=>1, 'b'=>2]);
+        $request = $this->createRequest('PUT', $uri, $token, $options);
+        $response = $this->getResponse($request);
+        var_export(json_decode($response->getBody()->getContents()));
+    }
     /**
      * Get provider url to fetch user details
      *
