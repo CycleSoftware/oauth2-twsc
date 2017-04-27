@@ -3,22 +3,22 @@ namespace League\OAuth2\Client\Provider\ValueObjects;
 
 class RepairObject
 {
-    public $customer_id;
-    public $object_id;
-    public $object_barcode;
-    public $is_active;
-    public $object_type_name;
+    public $customerId;
+    public $objectId;
+    public $objectBarcode;
+    public $isActive;
+    public $objectTypeName;
     public $brand;
     public $model;
-    public $model_year;
+    public $modelYear;
     public $color;
-    public $phone_number_id;
-    public $license_plate;
-    public $km_mileage;
-    public $frame_id;
-    public $chip_id;
-    public $key_id;
-    public $engine_id;
-    public $battery_id;
-    public $lock_id;
+    public $phoneNumberId;
+    public $licensePlate;
+    public $kmMileage;
+    public $frameId;
+    public $chipId;
+    public $keyId;
+    public $engineId;
+    public $batteryId;
+    public $lockId;
 }
