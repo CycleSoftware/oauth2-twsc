@@ -181,7 +181,7 @@ class Client
      */
     public function getCustomer(AccessToken $accessToken, string $customerId)
     {
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/profile/me/customer/' . $customerId);
+        return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/profile/me/customers/' . $customerId);
     }
 
     /**
