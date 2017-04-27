@@ -10,6 +10,8 @@ class Twsc extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
+    const METHOD_PUT = 'PUT';
+
     /** @var string */
     public $base_twsc_oauth2_url = 'https://accounts.twsc.nl';
     /** @var string */
@@ -40,6 +42,26 @@ class Twsc extends AbstractProvider
         }
     }
 
+    /**
+     * Performs GET, POST and PUT calls to Twsc API
+     *
+     * @param AccessToken $accessToken
+     * @param string $url
+     * @param string $method
+     * @param null $body
+     * @return mixed
+     */
+    public function callApi(AccessToken $accessToken, string $url, string $method, $body = null)
+    {
+        $options = [];
+        if($method === self::METHOD_PUT || $method === self::METHOD_POST) {
+            $options['body'] = json_encode($body);
+        }
+        $uri = $this->base_twsc_api_url . '/' . $this->api_version . '/'. $url;
+        $request = $this->createRequest($method, $uri, $accessToken, $options);
+        $response = $this->getResponse($request);
+        return json_decode($response->getBody()->getContents(), true);
+    }
     /**
      * Get authorization url to begin OAuth flow
      *
