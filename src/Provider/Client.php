@@ -88,7 +88,7 @@ class Client
      */
     public function createRepair(AccessToken $accessToken, Repair $repair)
     {
-        return $this->client->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/repairs/', json_encode($repair));
+        return $this->client->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/repairs/', $repair);
     }
 
     /**
@@ -98,8 +98,8 @@ class Client
      */
     public function updateRepair(AccessToken $accessToken, Repair $repair)
     {
-        $relativeUrl = '/profile/me/repairs/' . $repair->repair_id;
-        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, json_encode($repair));
+        $relativeUrl = '/profile/me/repairs/' . $repair->repairId;
+        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repair);
     }
 
     /**
@@ -124,7 +124,7 @@ class Client
      */
     public function createObject(AccessToken $accessToken, RepairObject $repairObject)
     {
-        return $this->client->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/objects', json_encode($repairObject));
+        return $this->client->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/objects', $repairObject);
     }
 
     /**
@@ -134,8 +134,8 @@ class Client
      */
     public function updateObject(AccessToken $accessToken, RepairObject $repairObject)
     {
-        $relativeUrl = '/profile/me/objects/' . $repairObject->object_id;
-        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, json_encode($repairObject));
+        $relativeUrl = '/profile/me/objects/' . $repairObject->objectId;
+        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
     }
 
     /**
