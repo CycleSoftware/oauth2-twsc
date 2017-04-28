@@ -106,12 +106,12 @@ class Client
      * @param AccessToken $accessToken
      * @return mixed
      */
-    public function getObjects(AccessToken $accessToken)
+    public function getRepairObjects(AccessToken $accessToken)
     {
         return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/profile/me/objects');
     }
 
-    public function getObject(AccessToken $accessToken, string $objectId)
+    public function getRepairObject(AccessToken $accessToken, string $objectId)
     {
         $relativeUrl = '/profile/me/objects/' . $objectId;
         return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
@@ -122,7 +122,7 @@ class Client
      * @param RepairObject $repairObject
      * @return mixed
      */
-    public function createObject(AccessToken $accessToken, RepairObject $repairObject)
+    public function createRepairObject(AccessToken $accessToken, RepairObject $repairObject)
     {
         return $this->client->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/objects', $repairObject);
     }
@@ -132,7 +132,7 @@ class Client
      * @param RepairObject $repairObject
      * @return mixed
      */
-    public function updateObject(AccessToken $accessToken, RepairObject $repairObject)
+    public function updateRepairObject(AccessToken $accessToken, RepairObject $repairObject)
     {
         $relativeUrl = '/profile/me/objects/' . $repairObject->objectId;
         return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
@@ -142,7 +142,7 @@ class Client
      * @param AccessToken $accessToken
      * @return mixed
      */
-    public function getTimes(AccessToken $accessToken)
+    public function getWorkshopTimes(AccessToken $accessToken)
     {
         return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times');
     }

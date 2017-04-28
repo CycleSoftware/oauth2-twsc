@@ -93,7 +93,7 @@ class Twsc extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->base_twsc_api_url . '/' . $this->api_version . '/me';
+        return $this->base_twsc_api_url . '/' . $this->api_version . '/profile/me';
     }
 
     /**
