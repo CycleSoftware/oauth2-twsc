@@ -10,10 +10,12 @@ class Twsc extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
+    const METHOD_PUT = 'PUT';
+
     /** @var string */
     public $base_twsc_oauth2_url = 'https://accounts.twsc.nl';
     /** @var string */
-    public $base_twsc_api_url = 'https://accounts.twsc.nl';
+    public $base_twsc_api_url = 'https://api.twsc.nl';
 
     /** @var string */
     protected $api_version = 'v1';
@@ -41,6 +43,26 @@ class Twsc extends AbstractProvider
     }
 
     /**
+     * Performs GET, POST and PUT calls to Twsc API
+     *
+     * @param AccessToken $accessToken
+     * @param string $url
+     * @param string $method
+     * @param null $body
+     * @return mixed
+     */
+    public function callApi(AccessToken $accessToken, string $method, string $url, $body = null)
+    {
+        $options = [];
+        if($method === self::METHOD_PUT || $method === self::METHOD_POST) {
+            $options['body'] = json_encode($body);
+        }
+        $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
+        $request = $this->createRequest($method, $uri, $accessToken, $options);
+        $response = $this->getResponse($request);
+        return json_decode($response->getBody()->getContents(), true);
+    }
+    /**
      * Get authorization url to begin OAuth flow
      *
      * @return string
@@ -62,25 +84,6 @@ class Twsc extends AbstractProvider
         return $this->base_twsc_oauth2_url . '/oauth/token';
     }
 
-
-    public function post_something(string $uri, $token, string $body)
-    {
-        $uri = 'http://5m-2.dev.accounts.twsc.nl/oauth/test_server';
-        $options['body'] = 'hello';
-        $request = $this->createRequest(self::METHOD_POST, $uri, $token, $options);
-        $response = $this->getResponse($request);
-        $contents = $response->getBody()->getContents();
-        echo $contents;
-    }
-
-    public function put_something(string $uri, $token, string $body)
-    {
-        $uri = 'http://5m-2.dev.accounts.twsc.nl/oauth/test_server';
-        $options['body'] = json_encode(['a'=>1, 'b'=>2]);
-        $request = $this->createRequest('PUT', $uri, $token, $options);
-        $response = $this->getResponse($request);
-        var_export(json_decode($response->getBody()->getContents()));
-    }
     /**
      * Get provider url to fetch user details
      *
@@ -90,7 +93,7 @@ class Twsc extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->base_twsc_api_url . '/' . $this->api_version . '/me';
+        return $this->base_twsc_api_url . '/' . $this->api_version . '/profile/me';
     }
 
     /**
