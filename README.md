@@ -1,6 +1,6 @@
-# CycleSoftware Twsc Provider for OAuth 2.0 Client
+# CycleSoftware Twsc Provider and Client for accessing TWSC Api Resources
 
-This package provides CycleSoftware TWSC OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+This package provides CycleSoftware TWSC Api support using PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
 ## Install
 
@@ -12,7 +12,7 @@ $ composer require cyclesoftware/oauth2-twsc
 
 ## Usage
 
-Usage is the same as The League's OAuth client, using `\League\OAuth2\Client\Provider\Twsc` as the provider.
+Usage scenario is very similar to the one for The League's OAuth client, using `\League\OAuth2\Client\Provider\Twsc` as the provider.
 
 ``` php
 $provider = new League\OAuth2\Client\Provider\Twsc([
@@ -45,23 +45,61 @@ if (!isset($_GET['code'])) {
     // Optional: Now you have a token you can look up a users profile data
     try {
 
-        // We got an access token, let's now get the user's details
-        $user = $provider->getResourceOwner($token);
-
-        // Use these details to create a new profile
-        printf('Hello %s!', $user->getFirstName() . ' ' . $user->getLastName());
+        // We got an access token, now we can access resources on TWSC Api 
+        // First create client
+        $client = new League\OAuth2\Client\Provider\Client($provider);
+        // now we can get list of available repair codes
+        $result = $client->getRepairCodes($token);
+        // We have list of repair codes 
+        printr($result);
 
     } catch (Exception $e) {
-
-        // Failed to get user details
+        // Failed to get resources
         exit('Oh dear...');
-
     }
 
     // Use this to interact with an API on the users behalf
     echo $token->getToken();
 }
 ```
+Class Client has lot of implemented methods for getting resources from server. There are two create and update methods to create new objects and update existing ones.
+We illustrate creation of RepairObject using Client. Scenario is pretty much as the previous, and we assume that we already have access token.
+
+``` php
+    try {
+
+        // We got an access token, now we can access resources on TWSC Api 
+        // First create client
+        $client = new League\OAuth2\Client\Provider\Client($provider);
+        // Create RepairObject instance
+        $repairObject = new League\OAuth2\Client\Provider\ValueObjects\RepairObject();
+        // Fill repairObject fields
+        $repairObject->is_active = 1;
+        $repairObject->object_barcode = '3600 2600';
+        $repairObject->customer_id = 2002;
+        $repairObject->object_type_name = 'bicycle';
+        $repairObject->brand = 'A-bike';
+        $repairObject->model = 'mountain bike';
+        $repairObject->color = 'red';
+        $repairObject->phone_number_id = '12345';
+        $repairObject->license_plate = 'nl 1234';
+        $repairObject->km_mileage = '200';
+        $repairObject->frame_id = 'HK6429';
+        $repairObject->chip_id = '4321';
+        $repairObject->key_id = '1234';
+        $repairObject->engine_id = '4321';
+        $repairObject->model_year = '2017';
+        $repairObject->battery_id = '1234';
+        $repairObject->lock_id = '4321';
+        // Now we can create repair object on the server
+        $repairObjectId = $client->createRepairObject($token, $repairObject);
+        // We got repair object identifier 
+        printr($repairObjectId);
+    } catch (Exception $e) {
+        // Failed to create repair object
+        exit('Oh dear...');
+    }
+```   
 
 ## Testing
 
