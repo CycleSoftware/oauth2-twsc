@@ -18,7 +18,7 @@ class Client
      */
     public  function __construct(Twsc $twsc)
     {
-        $this->client = $twsc;
+        $this->provider = $twsc;
     }
 
     /**
@@ -28,7 +28,7 @@ class Client
     public function getInvoices(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/invoices';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -39,7 +39,7 @@ class Client
     public function getInvoice(AccessToken $accessToken, string $invoiceId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/invoices/' . $invoiceId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -49,7 +49,7 @@ class Client
     public function getCodes(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/codes';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -60,7 +60,7 @@ class Client
     public function getCode(AccessToken $accessToken, string $code, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/codes/' . $code;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -70,7 +70,7 @@ class Client
     public function getRepairs(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/repairs';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -81,7 +81,7 @@ class Client
     public function getRepair(AccessToken $accessToken, string $repairId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/repairs/' . $repairId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -92,7 +92,7 @@ class Client
     public function createRepair(AccessToken $accessToken, Repair $repair, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/repairs/';
-        return $this->client->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repair);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repair);
     }
 
     /**
@@ -103,7 +103,7 @@ class Client
     public function updateRepair(AccessToken $accessToken, Repair $repair, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/repairs/' . $repair->repair_id;
-        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repair);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repair);
     }
 
     /**
@@ -113,13 +113,13 @@ class Client
     public function getRepairObjects(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     public function getRepairObject(AccessToken $accessToken, string $objectId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/' . $objectId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -127,10 +127,10 @@ class Client
      * @param RepairObject $repairObject
      * @return mixed
      */
-    public function createRepairObject(AccessToken $accessToken, RepairObject $repairObject, string $twscProfileId)
+    public function createRepairObject(AccessToken $accessToken, RepairObject $repairObject, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/';
-        return $this->client->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repairObject);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repairObject);
     }
 
     /**
@@ -141,7 +141,7 @@ class Client
     public function updateRepairObject(AccessToken $accessToken, RepairObject $repairObject, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/' . $repairObject->object_id;
-        return $this->client->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
     }
 
     /**
@@ -150,7 +150,7 @@ class Client
      */
     public function getWorkshopTimes(AccessToken $accessToken)
     {
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times');
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times');
     }
 
     /**
@@ -159,7 +159,7 @@ class Client
      */
     public function getRepairCodes(AccessToken $accessToken)
     {
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, '/workshop/repair-codes');
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/repair-codes');
     }
 
     /**
@@ -169,7 +169,7 @@ class Client
     public function getProfile(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -179,7 +179,7 @@ class Client
     public function getCustomers(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/customers';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -190,7 +190,7 @@ class Client
     public function getCustomer(AccessToken $accessToken, string $customerId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/customers/' . $customerId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -200,7 +200,7 @@ class Client
     public function getServiceCards(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/service-cards';
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
     /**
@@ -211,6 +211,6 @@ class Client
     public function getServiceCard(AccessToken $accessToken, string $serviceCardId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/service-cards/' . $serviceCardId;
-        return $this->client->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 }

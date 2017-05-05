@@ -51,7 +51,7 @@ if (!isset($_GET['code'])) {
         // now we can get list of available repair codes
         $result = $client->getRepairCodes($token);
         // We have list of repair codes 
-        printr($result);
+        print_r($result);
 
     } catch (Exception $e) {
         // Failed to get resources
@@ -62,7 +62,9 @@ if (!isset($_GET['code'])) {
     echo $token->getToken();
 }
 ```
-Class Client has lot of implemented methods for getting resources from server. There are two create and update methods to create new objects and update existing ones.
+Class Client has lot of implemented methods for getting resources from server. 
+
+There are two create and update methods to create new objects and update existing ones.
 We illustrate creation of RepairObject using Client. Scenario is pretty much as the previous, and we assume that we already have access token.
 
 ``` php
@@ -94,7 +96,7 @@ We illustrate creation of RepairObject using Client. Scenario is pretty much as 
         // Now we can create repair object on the server
         $repairObjectId = $client->createRepairObject($token, $repairObject);
         // We got repair object identifier 
-        printr($repairObjectId);
+        print_r($repairObjectId);
     } catch (Exception $e) {
         // Failed to create repair object
         exit('Oh dear...');
