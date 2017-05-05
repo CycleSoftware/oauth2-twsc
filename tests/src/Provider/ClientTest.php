@@ -9,10 +9,6 @@ use Mockery as m;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Twsc
-     */
-    protected $provider;
     protected $apiVersion = 'v1';
 
     public function tearDown()

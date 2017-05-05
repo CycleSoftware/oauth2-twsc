@@ -10,7 +10,7 @@ class Client
     /**
      * @var Twsc
      */
-    public $client;
+    public $provider;
 
     /**
      * Client constructor.

@@ -1,15 +1,10 @@
 <?php
 namespace League\OAuth2\Client\Test\Provider;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\TwscResourceOwner;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
-use League\OAuth2\Client\Token\AccessToken;
 use Mockery as m;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
 
 class TwscTest extends \PHPUnit_Framework_TestCase
 {
