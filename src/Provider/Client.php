@@ -1,6 +1,7 @@
 <?php
 namespace League\OAuth2\Client\Provider;
 
+use League\OAuth2\Client\Provider\ValueObjects\Customer;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use League\OAuth2\Client\Token\AccessToken;
@@ -191,6 +192,18 @@ class Client
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/customers/' . $customerId;
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @param Customer $customer
+     * @param string $twscProfileId
+     * @return mixed
+     */
+    public function updateCustomer(AccessToken $accessToken, Customer $customer, string $twscProfileId = 'me')
+    {
+        $relativeUrl = '/profile/' . $twscProfileId . '/customers/' . $customer->customer_id;
+        return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $customer);
     }
 
     /**
