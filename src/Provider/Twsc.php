@@ -46,10 +46,11 @@ class Twsc extends AbstractProvider
      * Performs GET, POST and PUT calls to Twsc API
      *
      * @param AccessToken $accessToken
-     * @param string $url
      * @param string $method
+     * @param string $url
      * @param null $body
      * @return mixed
+     * @throws ServerErrorException
      */
     public function callApi(AccessToken $accessToken, string $method, string $url, $body = null)
     {
@@ -60,7 +61,11 @@ class Twsc extends AbstractProvider
         $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
         $request = $this->createRequest($method, $uri, $accessToken, $options);
         $response = $this->getResponse($request);
-        return json_decode($response->getBody()->getContents(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
+        if(!empty($data['error']) && boolval($data['error']) === true) {
+            throw new ServerErrorException($data['error_message']);
+        }
+        return $data;
     }
     /**
      * Get authorization url to begin OAuth flow

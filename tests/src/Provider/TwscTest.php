@@ -1,6 +1,7 @@
 <?php
 namespace League\OAuth2\Client\Test\Provider;
 
+use League\OAuth2\Client\Provider\ServerErrorException;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\TwscResourceOwner;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
@@ -34,7 +35,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     public function testCallApiMethodGet()
     {
         $result = ['email' => 'john.smith@e.mail'];
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');//new AccessToken(['access_token' => 'access_token']);
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
         $request = m::mock('Psr\Http\Message\ServerRequestInterface');
         $stream = m::mock('Psr\Http\Message\StreamInterface');
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
@@ -60,7 +61,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     {
         $body = new Repair();
         $result = ['email' => 'john.smith@e.mail'];
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');//new AccessToken(['access_token' => 'access_token']);
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
         $request = m::mock('Psr\Http\Message\ServerRequestInterface');
         $stream = m::mock('Psr\Http\Message\StreamInterface');
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
@@ -85,6 +86,65 @@ class TwscTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
         $resultReturned = $provider->callApi($accessToken, Twsc::METHOD_POST, '/profile/me/repairs', $body);
         $this->assertEquals($result, $resultReturned);
+    }
+
+    public function testCallApiMethodPut()
+    {
+        $body = new Repair();
+        $result = ['email' => 'john.smith@e.mail'];
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $request = m::mock('Psr\Http\Message\ServerRequestInterface');
+        $stream = m::mock('Psr\Http\Message\StreamInterface');
+        $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
+        $response = m::mock('Psr\Http\Message\ResponseInterface');
+        $response->shouldReceive('getBody')->times(1)->andReturn($stream);
+        $provider = $this->getMock(
+            Twsc::class,
+            ['createRequest', 'getResponse']
+        );
+        $provider->expects($this->once())
+            ->method('createRequest')
+            ->with(
+                $this->equalTo(Twsc::METHOD_PUT),
+                $this->equalTo('https://api.twsc.nl/v1/profile/me/repairs'),
+                $this->equalTo($accessToken),
+                $this->equalTo(['body' => json_encode($body)])
+            )
+            ->will($this->returnValue($request));
+        $provider->expects($this->once())
+            ->method('getResponse')
+            ->with($this->equalTo($request))
+            ->will($this->returnValue($response));
+        $resultReturned = $provider->callApi($accessToken, Twsc::METHOD_PUT, '/profile/me/repairs', $body);
+        $this->assertEquals($result, $resultReturned);
+    }
+
+    /**
+     * @expectedException \League\OAuth2\Client\Provider\ServerErrorException
+     * @expectedExceptionMessage Server error
+     */
+    public function testCallApiShouldThrowServerError()
+    {
+        $result = ['error' => true, 'error_message' => 'Server error'];
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $request = m::mock('Psr\Http\Message\ServerRequestInterface');
+        $stream = m::mock('Psr\Http\Message\StreamInterface');
+        $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
+        $response = m::mock('Psr\Http\Message\ResponseInterface');
+        $response->shouldReceive('getBody')->times(1)->andReturn($stream);
+        $provider = $this->getMock(
+            Twsc::class,
+            ['createRequest', 'getResponse']
+        );
+        $provider->expects($this->once())
+            ->method('createRequest')
+            ->with($this->equalTo(Twsc::METHOD_GET), $this->equalTo('https://api.twsc.nl/v1/profile/me'), $this->equalTo($accessToken), $this->equalTo([]))
+            ->will($this->returnValue($request));
+        $provider->expects($this->once())
+            ->method('getResponse')
+            ->with($this->equalTo($request))
+            ->will($this->returnValue($response));
+        $resultReturned = $provider->callApi($accessToken, Twsc::METHOD_GET, '/profile/me');
     }
 
     public function testAuthorizationUrl()
