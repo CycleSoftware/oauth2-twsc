@@ -11,6 +11,7 @@ class Twsc extends AbstractProvider
     use BearerAuthorizationTrait;
 
     const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
 
     /** @var string */
     public $base_twsc_oauth2_url = 'https://accounts.twsc.nl';

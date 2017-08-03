@@ -177,6 +177,16 @@ class Client
      * @param AccessToken $accessToken
      * @return mixed
      */
+    public function deleteProfile(AccessToken $accessToken, string $twscProfileId = 'me')
+    {
+        $relativeUrl = '/profile/' . $twscProfileId;
+        return $this->provider->callApi($accessToken, Twsc::METHOD_DELETE, $relativeUrl);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @return mixed
+     */
     public function getCustomers(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/customers';
