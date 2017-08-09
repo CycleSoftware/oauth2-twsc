@@ -17,7 +17,7 @@ class Client
      * Client constructor.
      * @param Twsc $twsc
      */
-    public  function __construct(Twsc $twsc)
+    public function __construct(Twsc $twsc)
     {
         $this->provider = $twsc;
     }
@@ -128,7 +128,11 @@ class Client
      * @param RepairObject $repairObject
      * @return mixed
      */
-    public function createRepairObject(AccessToken $accessToken, RepairObject $repairObject, string $twscProfileId = 'me')
+    public function createRepairObject(
+        AccessToken $accessToken,
+        RepairObject $repairObject,
+        string $twscProfileId = 'me'
+    )
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repairObject);
@@ -139,7 +143,11 @@ class Client
      * @param RepairObject $repairObject
      * @return mixed
      */
-    public function updateRepairObject(AccessToken $accessToken, RepairObject $repairObject, string $twscProfileId = 'me')
+    public function updateRepairObject(
+        AccessToken $accessToken,
+        RepairObject $repairObject,
+        string $twscProfileId = 'me'
+    )
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/' . $repairObject->object_id;
         return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);

@@ -56,14 +56,14 @@ class Twsc extends AbstractProvider
     public function callApi(AccessToken $accessToken, string $method, string $url, $body = null)
     {
         $options = [];
-        if($method === self::METHOD_PUT || $method === self::METHOD_POST) {
+        if ($method === self::METHOD_PUT || $method === self::METHOD_POST) {
             $options['body'] = json_encode($body);
         }
         $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
         $request = $this->createRequest($method, $uri, $accessToken, $options);
         $response = $this->getResponse($request);
         $data = json_decode($response->getBody()->getContents(), true);
-        if(!empty($data['error']) && boolval($data['error']) === true) {
+        if (!empty($data['error']) && boolval($data['error']) === true) {
             throw new ServerErrorException($data['error_message']);
         }
         return $data;
