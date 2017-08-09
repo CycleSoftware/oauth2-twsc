@@ -132,8 +132,7 @@ class Client
         AccessToken $accessToken,
         RepairObject $repairObject,
         string $twscProfileId = 'me'
-    )
-    {
+    ) {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repairObject);
     }
@@ -147,8 +146,7 @@ class Client
         AccessToken $accessToken,
         RepairObject $repairObject,
         string $twscProfileId = 'me'
-    )
-    {
+    ) {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/' . $repairObject->object_id;
         return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
     }
