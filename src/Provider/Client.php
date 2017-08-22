@@ -55,7 +55,8 @@ class Client
 
     /**
      * @param AccessToken $accessToken
-     * @param string $codeId
+     * @param string $code
+     * @param string $twscProfileId
      * @return mixed
      */
     public function getCode(AccessToken $accessToken, string $code, string $twscProfileId = 'me')
@@ -176,6 +177,16 @@ class Client
     public function getProfile(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId;
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @return mixed
+     */
+    public function getFullProfile(AccessToken $accessToken, string $twscProfileId = 'me')
+    {
+        $relativeUrl = '/full_profile/' . $twscProfileId;
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 

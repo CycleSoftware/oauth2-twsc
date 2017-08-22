@@ -247,6 +247,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->getProfile($accessToken);
     }
 
+    public function testGetFullProfile()
+    {
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $url = '/full_profile/me';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
+        $client = new Client($twsc);
+        $client->getFullProfile($accessToken);
+    }
+
     public function testDeleteProfile()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
