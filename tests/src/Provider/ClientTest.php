@@ -4,6 +4,7 @@ namespace League\OAuth2\Client\Test\Provider;
 use League\OAuth2\Client\Provider\Client;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
+use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use Mockery as m;
@@ -305,6 +306,23 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
         $client->getCustomer($accessToken, 20);
+    }
+
+    public function testCreateCustomerPhone()
+    {
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $url = '/profile/me/create_phone_number/1';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
+        $client = new Client($twsc);
+        $customerPhone = new CustomerPhone();
+        $customerPhone->customer_id = 1;
+        $client->createCustomerPhone($accessToken, $customerPhone);
     }
 
     public function testUpdateCustomer()

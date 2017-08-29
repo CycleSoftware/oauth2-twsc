@@ -2,6 +2,7 @@
 namespace League\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
+use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use League\OAuth2\Client\Token\AccessToken;
@@ -219,6 +220,21 @@ class Client
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/customers/' . $customerId;
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @param CustomerPhone $customerPhone
+     * @param string $twscProfileId
+     * @return mixed
+     */
+    public function createCustomerPhone(
+        AccessToken $accessToken,
+        CustomerPhone $customerPhone,
+        string $twscProfileId = 'me'
+    ) {
+        $relativeUrl = '/profile/' . $twscProfileId . '/create_phone_number/' . $customerPhone->customer_id;
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $customerPhone);
     }
 
     /**
