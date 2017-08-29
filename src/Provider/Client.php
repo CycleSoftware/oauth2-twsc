@@ -3,6 +3,7 @@ namespace League\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
 use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
+use League\OAuth2\Client\Provider\ValueObjects\FullRepair;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use League\OAuth2\Client\Token\AccessToken;
@@ -100,6 +101,17 @@ class Client
 
     /**
      * @param AccessToken $accessToken
+     * @param FullRepair $fullRepair
+     * @return mixed
+     */
+    public function createFullRepair(AccessToken $accessToken, FullRepair $fullRepair, string $twscProfileId = 'me')
+    {
+        $relativeUrl = '/profile/' . $twscProfileId . '/full_repair/';
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $fullRepair);
+    }
+
+    /**
+     * @param AccessToken $accessToken
      * @param Repair $repair
      * @return mixed
      */
@@ -119,6 +131,12 @@ class Client
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
 
+    /**
+     * @param AccessToken $accessToken
+     * @param string $objectId
+     * @param string $twscProfileId
+     * @return mixed
+     */
     public function getRepairObject(AccessToken $accessToken, string $objectId, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/objects/' . $objectId;

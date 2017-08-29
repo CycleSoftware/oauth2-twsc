@@ -5,6 +5,7 @@ use League\OAuth2\Client\Provider\Client;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
 use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
+use League\OAuth2\Client\Provider\ValueObjects\FullRepair;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use Mockery as m;
@@ -107,6 +108,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
         $client->getRepair($accessToken, 20);
+    }
+
+    public function createFullRepair()
+    {
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $url = '/profile/me/full_repair/';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
+        $client = new Client($twsc);
+        $client->createFullRepair($accessToken, new FullRepair());
     }
 
     public function testCreateRepair()
