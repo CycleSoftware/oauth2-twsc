@@ -110,21 +110,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->getRepair($accessToken, 20);
     }
 
-    public function createFullRepair()
-    {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/full_repair/';
-        $twsc = $this->getMock(
-            Twsc::class,
-            ['callApi']
-        );
-        $twsc->expects($this->once())
-            ->method('callApi')
-            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
-        $client = new Client($twsc);
-        $client->createFullRepair($accessToken, new FullRepair());
-    }
-
     public function testCreateRepair()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');

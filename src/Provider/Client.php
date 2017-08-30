@@ -101,17 +101,6 @@ class Client
 
     /**
      * @param AccessToken $accessToken
-     * @param FullRepair $fullRepair
-     * @return mixed
-     */
-    public function createFullRepair(AccessToken $accessToken, FullRepair $fullRepair, string $twscProfileId = 'me')
-    {
-        $relativeUrl = '/profile/' . $twscProfileId . '/full_repair/';
-        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $fullRepair);
-    }
-
-    /**
-     * @param AccessToken $accessToken
      * @param Repair $repair
      * @return mixed
      */
@@ -146,6 +135,7 @@ class Client
     /**
      * @param AccessToken $accessToken
      * @param RepairObject $repairObject
+     * @param string $twscProfileId
      * @return mixed
      */
     public function createRepairObject(
@@ -160,6 +150,7 @@ class Client
     /**
      * @param AccessToken $accessToken
      * @param RepairObject $repairObject
+     * @param string $twscProfileId
      * @return mixed
      */
     public function updateRepairObject(
