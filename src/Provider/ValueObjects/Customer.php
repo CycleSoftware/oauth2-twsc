@@ -4,6 +4,7 @@ namespace League\OAuth2\Client\Provider\ValueObjects;
 class Customer
 {
     public $customer_id;
+    public $customer_type_name;
     public $customer_barcode;
     public $postcode;
     public $house_number;
@@ -17,11 +18,10 @@ class Customer
     public $city;
     public $country;
     public $country_code_iso_3166;
-    public $phone_number;
     public $email;
     public $discount_percentage;
-    public $customers_type_name;
     public $datetime_created;
     public $name_prefix;
-    public $mobile_phone;
+    /** @var  CustomerPhone[] $phone_numbers */
+    public $phone_numbers;
 }

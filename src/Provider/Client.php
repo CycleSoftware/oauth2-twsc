@@ -242,7 +242,7 @@ class Client
         CustomerPhone $customerPhone,
         string $twscProfileId = 'me'
     ) {
-        $relativeUrl = '/profile/' . $twscProfileId . '/create_phone_number/' . $customerPhone->customer_id;
+        $relativeUrl = '/profile/' . $twscProfileId . '/customers/' . $customerPhone->customer_id . '/phone-numbers';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $customerPhone);
     }
 

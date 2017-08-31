@@ -312,7 +312,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateCustomerPhone()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/create_phone_number/1';
+        $url = '/profile/me/customers/1/phone-numbers';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
