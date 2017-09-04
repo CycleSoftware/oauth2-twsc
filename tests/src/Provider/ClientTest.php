@@ -50,36 +50,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->getInvoice($accessToken, 20);
     }
 
-    public function testGetCodes()
-    {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/codes';
-        $twsc = $this->getMock(
-            Twsc::class,
-            ['callApi']
-        );
-        $twsc->expects($this->once())
-            ->method('callApi')
-            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
-        $client = new Client($twsc);
-        $client->getCodes($accessToken);
-    }
-
-    public function testGetCode()
-    {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/codes/20';
-        $twsc = $this->getMock(
-            Twsc::class,
-            ['callApi']
-        );
-        $twsc->expects($this->once())
-            ->method('callApi')
-            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
-        $client = new Client($twsc);
-        $client->getCode($accessToken, 20);
-    }
-
     public function testGetRepairs()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');

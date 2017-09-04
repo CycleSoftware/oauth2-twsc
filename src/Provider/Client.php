@@ -49,28 +49,6 @@ class Client
      * @param AccessToken $accessToken
      * @return mixed
      */
-    public function getCodes(AccessToken $accessToken, string $twscProfileId = 'me')
-    {
-        $relativeUrl = '/profile/' . $twscProfileId . '/codes';
-        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
-    }
-
-    /**
-     * @param AccessToken $accessToken
-     * @param string $code
-     * @param string $twscProfileId
-     * @return mixed
-     */
-    public function getCode(AccessToken $accessToken, string $code, string $twscProfileId = 'me')
-    {
-        $relativeUrl = '/profile/' . $twscProfileId . '/codes/' . $code;
-        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
-    }
-
-    /**
-     * @param AccessToken $accessToken
-     * @return mixed
-     */
     public function getRepairs(AccessToken $accessToken, string $twscProfileId = 'me')
     {
         $relativeUrl = '/profile/' . $twscProfileId . '/repairs';
