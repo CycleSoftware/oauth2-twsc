@@ -296,6 +296,24 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->createCustomerPhone($accessToken, $customerPhone);
     }
 
+    public function testUpdateCustomerPhone()
+    {
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $url = '/profile/me/customers/1/phone-numbers/1';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_PUT), $this->equalTo($url));
+        $client = new Client($twsc);
+        $customerPhone = new CustomerPhone();
+        $customerPhone->customer_id = 1;
+        $customerPhone->phone_number_id = 1;
+        $client->updateCustomerPhone($accessToken, $customerPhone);
+    }
+
     public function testUpdateCustomer()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
@@ -313,7 +331,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->updateCustomer($accessToken, $customer);
     }
 
-    public function testGetServceCards()
+    public function testGetServiceCards()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
         $url = '/profile/me/service-cards';
