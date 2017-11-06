@@ -120,7 +120,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \League\OAuth2\Client\Provider\ServerErrorException
+     * @expectedException \League\OAuth2\Client\Provider\ClientErrorException
      * @expectedExceptionMessage Server error
      */
     public function testCallApiShouldThrowServerError()
