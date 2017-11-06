@@ -65,7 +65,11 @@ class Twsc extends AbstractProvider
             $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
             $request = $this->createRequest($method, $uri, $accessToken, $options);
             $response = $this->getResponse($request);
+
             $data = json_decode($response->getBody()->getContents(), true);
+            if (!empty($data['error']) && boolval($data['error']) === true) {
+                throw new ClientErrorException($data);
+            }
             return $data;
         }
         catch (ClientException $e) {

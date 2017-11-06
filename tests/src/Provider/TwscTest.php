@@ -1,4 +1,5 @@
 <?php
+
 namespace League\OAuth2\Client\Test\Provider;
 
 use League\OAuth2\Client\Provider\ServerErrorException;
@@ -19,9 +20,9 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     {
         $this->provider = new \League\OAuth2\Client\Provider\Twsc(
             [
-                'clientId'     => 'mock_client_id',
+                'clientId' => 'mock_client_id',
                 'clientSecret' => 'mock_secret',
-                'redirectUri'  => 'none',
+                'redirectUri' => 'none',
             ]
         );
     }
@@ -47,13 +48,24 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         );
         $provider->expects($this->once())
             ->method('createRequest')
-            ->with($this->equalTo(Twsc::METHOD_GET), $this->equalTo('https://api.twsc.nl/v1/profile/me'), $this->equalTo($accessToken), $this->equalTo([]))
+            ->with(
+                $this->equalTo(Twsc::METHOD_GET),
+                $this->equalTo('https://api.twsc.nl/v1/profile/me'),
+                $this->equalTo($accessToken),
+                $this->equalTo([
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Accept-Encoding' => 'gzip'
+                        ]]
+                )
+            )
             ->will($this->returnValue($request));
         $provider->expects($this->once())
             ->method('getResponse')
             ->with($this->equalTo($request))
             ->will($this->returnValue($response));
         $resultReturned = $provider->callApi($accessToken, Twsc::METHOD_GET, '/profile/me');
+
         $this->assertEquals($result, $resultReturned);
     }
 
@@ -77,7 +89,13 @@ class TwscTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(Twsc::METHOD_POST),
                 $this->equalTo('https://api.twsc.nl/v1/profile/me/repairs'),
                 $this->equalTo($accessToken),
-                $this->equalTo(['body' => json_encode($body)])
+                $this->equalTo([
+                        'body' => json_encode($body),
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Accept-Encoding' => 'gzip'
+                        ]]
+                )
             )
             ->will($this->returnValue($request));
         $provider->expects($this->once())
@@ -108,7 +126,13 @@ class TwscTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(Twsc::METHOD_PUT),
                 $this->equalTo('https://api.twsc.nl/v1/profile/me/repairs'),
                 $this->equalTo($accessToken),
-                $this->equalTo(['body' => json_encode($body)])
+                $this->equalTo([
+                    'body' => json_encode($body),
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'Accept-Encoding' => 'gzip'
+                    ]
+                ])
             )
             ->will($this->returnValue($request));
         $provider->expects($this->once())
@@ -125,7 +149,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallApiShouldThrowServerError()
     {
-        $result = ['error' => true, 'error_message' => 'Server error'];
+        $result = ['error' => true, 'message' => 'Server error', 'message_nl' => 'NL'];
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
         $request = m::mock('Psr\Http\Message\ServerRequestInterface');
         $stream = m::mock('Psr\Http\Message\StreamInterface');
@@ -138,7 +162,16 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         );
         $provider->expects($this->once())
             ->method('createRequest')
-            ->with($this->equalTo(Twsc::METHOD_GET), $this->equalTo('https://api.twsc.nl/v1/profile/me'), $this->equalTo($accessToken), $this->equalTo([]))
+            ->with(
+                $this->equalTo(Twsc::METHOD_GET),
+                $this->equalTo('https://api.twsc.nl/v1/profile/me'),
+                $this->equalTo($accessToken),
+                $this->equalTo([
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'Accept-Encoding' => 'gzip'
+                    ]
+                ]))
             ->will($this->returnValue($request));
         $provider->expects($this->once())
             ->method('getResponse')
@@ -164,7 +197,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     public function testScopes()
     {
         $options = ['scope' => [uniqid(), uniqid()]];
-        $url     = $this->provider->getAuthorizationUrl($options);
+        $url = $this->provider->getAuthorizationUrl($options);
         $this->assertContains(urlencode(implode(',', $options['scope'])), $url);
     }
 
@@ -178,8 +211,8 @@ class TwscTest extends \PHPUnit_Framework_TestCase
     public function testGetBaseAccessTokenUrl()
     {
         $params = [];
-        $url    = $this->provider->getBaseAccessTokenUrl($params);
-        $uri    = parse_url($url);
+        $url = $this->provider->getBaseAccessTokenUrl($params);
+        $uri = parse_url($url);
         $this->assertEquals('/oauth/token', $uri['path']);
     }
 
@@ -238,11 +271,11 @@ class TwscTest extends \PHPUnit_Framework_TestCase
 
     public function testUserData()
     {
-        $userId    = rand(1000, 9999);
+        $userId = rand(1000, 9999);
         $firstName = uniqid();
-        $lastName  = uniqid();
-        $email     = uniqid();
-        $premium   = false;
+        $lastName = uniqid();
+        $email = uniqid();
+        $premium = false;
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn(
@@ -263,7 +296,7 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         $this->provider->setHttpClient($client);
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         /** @var TwscResourceOwner $user */
-        $user  = $this->provider->getResourceOwner($token);
+        $user = $this->provider->getResourceOwner($token);
         $this->assertEquals($userId, $user->getId());
         $this->assertEquals($userId, $user->toArray()['id']);
         $this->assertEquals($firstName, $user->getFirstName());
@@ -279,8 +312,8 @@ class TwscTest extends \PHPUnit_Framework_TestCase
      **/
     public function testExceptionThrownWhenErrorObjectReceived()
     {
-        $message      = uniqid();
-        $status       = rand(400, 600);
+        $message = uniqid();
+        $status = rand(400, 600);
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn(' {"message":"' . $message . '"}');
