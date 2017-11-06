@@ -1,6 +1,7 @@
 <?php
 namespace League\OAuth2\Client\Provider;
 
+use GuzzleHttp\Exception\ClientException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
@@ -51,22 +52,30 @@ class Twsc extends AbstractProvider
      * @param string $url
      * @param null $body
      * @return mixed
-     * @throws ServerErrorException
+     * @throws ClientErrorException
      */
     public function callApi(AccessToken $accessToken, string $method, string $url, $body = null)
     {
-        $options = [];
-        if ($method === self::METHOD_PUT || $method === self::METHOD_POST) {
-            $options['body'] = json_encode($body);
+        try {
+            $options = [];
+            $options['headers'] = $this->getDefaultHeaders();
+            if ($method === self::METHOD_PUT || $method === self::METHOD_POST) {
+                $options['body'] = json_encode($body);
+            }
+            $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
+            $request = $this->createRequest($method, $uri, $accessToken, $options);
+            $response = $this->getResponse($request);
+            $data = json_decode($response->getBody()->getContents(), true);
+            return $data;
         }
-        $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
-        $request = $this->createRequest($method, $uri, $accessToken, $options);
-        $response = $this->getResponse($request);
-        $data = json_decode($response->getBody()->getContents(), true);
-        if (!empty($data['error']) && boolval($data['error']) === true) {
-            throw new ServerErrorException($data['error_message']);
+        catch (ClientException $e) {
+            $response = $e->getResponse();
+            $data = json_decode($response->getBody()->getContents(), true);
+            if (!empty($data['error']) && boolval($data['error']) === true) {
+                throw new ClientErrorException($data);
+            }
+            throw $e;
         }
-        return $data;
     }
     /**
      * Get authorization url to begin OAuth flow
