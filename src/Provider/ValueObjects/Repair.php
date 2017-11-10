@@ -25,5 +25,5 @@ class Repair
     public $total_repair_time_minutes;
     public $custom_repair_time_minutes;
     public $repair_codes = [];
-    public $service_card_item = [];
+    public $service_card_codes = [];
 }

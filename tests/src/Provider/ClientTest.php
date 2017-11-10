@@ -5,7 +5,6 @@ use League\OAuth2\Client\Provider\Client;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
 use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
-use League\OAuth2\Client\Provider\ValueObjects\FullRepair;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use Mockery as m;
