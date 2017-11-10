@@ -85,7 +85,7 @@ class Client
      */
     public function createRepair(AccessToken $accessToken, Repair $repair)
     {
-        $relativeUrl = '/customers/' . $repair->customer_id . '/repairs/';
+        $relativeUrl = '/customers/' . $repair->customer_id . '/repairs';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repair);
     }
 
