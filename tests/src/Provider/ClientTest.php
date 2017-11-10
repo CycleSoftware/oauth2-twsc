@@ -82,7 +82,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateRepair()
     {
         $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
-        $url = '/customers/1000/repairs/';
+        $url = '/customers/1000/repairs';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
