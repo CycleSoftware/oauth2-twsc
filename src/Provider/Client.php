@@ -25,6 +25,18 @@ class Client
 
     /**
      * @param AccessToken $accessToken
+     * @param int $repairId
+     * @param array $rating
+     * @return mixed
+     */
+    public function createRating(AccessToken $accessToken, int $repairId, array $rating)
+    {
+        $relativeUrl = '/workshop/rate/' . $repairId;
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $rating);
+    }
+
+    /**
+     * @param AccessToken $accessToken
      * @return mixed
      */
     public function getInvoices(AccessToken $accessToken, string $twscProfileId = 'me')
@@ -79,6 +91,7 @@ class Client
     /**
      * @param AccessToken $accessToken
      * @param Repair $repair
+     * @param string $twscProfileId
      * @return mixed
      */
     public function updateRepair(AccessToken $accessToken, Repair $repair, string $twscProfileId = 'me')

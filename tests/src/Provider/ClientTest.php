@@ -20,6 +20,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
+    public function testCreateRating()
+    {
+        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $url = '/workshop/rate/1';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url), []);
+        $client = new Client($twsc);
+        $client->createRating($accessToken, 1, []);
+    }
+
     public function testGetInvoices()
     {
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
