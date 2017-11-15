@@ -5,7 +5,6 @@ use League\OAuth2\Client\Provider\Client;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\ValueObjects\Customer;
 use League\OAuth2\Client\Provider\ValueObjects\CustomerPhone;
-use League\OAuth2\Client\Provider\ValueObjects\FullRepair;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use League\OAuth2\Client\Provider\ValueObjects\RepairObject;
 use Mockery as m;
@@ -37,8 +36,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInvoices()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/invoices';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/invoices?offset=12';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -47,13 +46,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getInvoices($accessToken);
+        $client->getInvoices($accessToken, 1000, 12);
     }
 
     public function testGetInvoice()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/invoices/20';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/invoices/20';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -62,13 +61,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getInvoice($accessToken, 20);
+        $client->getInvoice($accessToken, 1000, 20);
     }
 
     public function testGetRepairs()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/repairs';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/repairs?offset=12';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -77,13 +76,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getRepairs($accessToken);
+        $client->getRepairs($accessToken, 1000, 12);
     }
 
     public function testGetRepair()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/repairs/20';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/repairs/20';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -92,13 +91,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getRepair($accessToken, 20);
+        $client->getRepair($accessToken, 1000, 20);
     }
 
     public function testCreateRepair()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/repairs/';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/repairs';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -107,15 +106,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->createRepair($accessToken, new Repair());
+        $repair = new Repair();
+        $repair->customer_id = 1000;
+        $client->createRepair($accessToken, $repair);
     }
 
     public function testUpdateRepair()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+
         $repair = new Repair();
-        $repair->repair_id = 20;
-        $url = '/profile/me/repairs/20';
+        $repair->customer_id = 1000;
+        $repair->customer_order_repair_id = 3322;
+        $url = '/customers/1000/repairs/3322';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -129,8 +132,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRepairObjects()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/objects';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/objects';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -139,13 +142,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getRepairObjects($accessToken);
+        $client->getRepairObjects($accessToken, 1000);
     }
 
     public function testGetRepairObject()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/objects/20';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/objects/2000';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -154,13 +157,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getRepairObject($accessToken, 20);
+        $client->getRepairObject($accessToken, 1000, 2000);
     }
 
     public function testCreateRepairObject()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/objects/';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/objects';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -169,15 +172,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->createRepairObject($accessToken, new RepairObject());
+        $repair = new RepairObject();
+        $repair->customer_id = 1000;
+        $client->createRepairObject($accessToken, $repair);
     }
 
     public function testUpdateRepairObject()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $repairObject = new RepairObject();
+        $repairObject->customer_id = 1000;
         $repairObject->object_id = 20;
-        $url = '/profile/me/objects/20';
+        $url = '/customers/1000/objects/20';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -191,7 +197,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWorkshopTimes()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $url = '/workshop/times';
         $twsc = $this->getMock(
             Twsc::class,
@@ -206,7 +212,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRepairCodes()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $url = '/workshop/repair-codes';
         $twsc = $this->getMock(
             Twsc::class,
@@ -221,7 +227,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProfile()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $url = '/profile/me';
         $twsc = $this->getMock(
             Twsc::class,
@@ -236,8 +242,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFullProfile()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/full_profile/me';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/profile/me/details';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -246,12 +252,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getFullProfile($accessToken);
+        $client->getProfileDetails($accessToken);
     }
 
     public function testDeleteProfile()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $url = '/profile/me';
         $twsc = $this->getMock(
             Twsc::class,
@@ -266,7 +272,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomers()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $url = '/profile/me/customers';
         $twsc = $this->getMock(
             Twsc::class,
@@ -276,13 +282,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getCustomers($accessToken);
+        $client->getProfileCustomers($accessToken);
     }
 
     public function testGetCustomer()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/customers/20';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -291,13 +297,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getCustomer($accessToken, 20);
+        $client->getCustomer($accessToken, 1000);
     }
 
     public function testCreateCustomerPhone()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/customers/1/phone-numbers';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/phone-numbers';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -307,14 +313,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url));
         $client = new Client($twsc);
         $customerPhone = new CustomerPhone();
-        $customerPhone->customer_id = 1;
+        $customerPhone->customer_id = 1000;
         $client->createCustomerPhone($accessToken, $customerPhone);
     }
 
     public function testUpdateCustomerPhone()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/customers/1/phone-numbers/1';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/phone-numbers/1';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -324,17 +330,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_PUT), $this->equalTo($url));
         $client = new Client($twsc);
         $customerPhone = new CustomerPhone();
-        $customerPhone->customer_id = 1;
+        $customerPhone->customer_id = 1000;
         $customerPhone->phone_number_id = 1;
         $client->updateCustomerPhone($accessToken, $customerPhone);
     }
 
     public function testUpdateCustomer()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
         $customer = new Customer();
-        $customer->customer_id = 1;
-        $url = '/profile/me/customers/1';
+        $customer->customer_id = 1000;
+        $url = '/customers/1000';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -348,8 +354,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetServiceCards()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/service-cards';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/service-cards';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -358,13 +364,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getServiceCards($accessToken);
+        $client->getServiceCards($accessToken, 1000);
     }
 
-    public function testGetServceCard()
+    public function testGetServiceCard()
     {
-        $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $url = '/profile/me/service-cards/20';
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/1000/service-cards/20';
         $twsc = $this->getMock(
             Twsc::class,
             ['callApi']
@@ -373,6 +379,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->method('callApi')
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
-        $client->getServiceCard($accessToken, 20);
+        $client->getServiceCard($accessToken, 1000, 20);
     }
 }
