@@ -5,12 +5,11 @@ class Customer
 {
     public $customer_id;
     public $customer_type_name;
-    public $customer_barcode;
+    public $customer_reference;
     public $postcode;
     public $house_number;
     public $house_number_postfix;
     public $attn;
-    public $prefix;
     public $initials;
     public $insertion;
     public $name;
@@ -21,7 +20,7 @@ class Customer
     public $email;
     public $discount_percentage;
     public $datetime_created;
-    public $name_prefix;
+    public $title;
     /** @var  CustomerPhone[] $phone_numbers */
     public $phone_numbers;
 }
