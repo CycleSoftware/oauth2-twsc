@@ -1,4 +1,5 @@
 <?php
+
 namespace League\OAuth2\Client\Provider;
 
 use GuzzleHttp\Exception\ClientException;
@@ -71,8 +72,7 @@ class Twsc extends AbstractProvider
                 throw new ClientErrorException($data);
             }
             return $data;
-        }
-        catch (ClientException $e) {
+        } catch (ClientException $e) {
             $response = $e->getResponse();
             $data = json_decode($response->getBody()->getContents(), true);
             if (!empty($data['error']) && boolval($data['error']) === true) {

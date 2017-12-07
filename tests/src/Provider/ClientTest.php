@@ -352,6 +352,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->updateCustomer($accessToken, $customer);
     }
 
+    public function testCreateCustomer()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $customer = new Customer();
+        $url = '/customers';
+        $twsc = $this->getMock(
+            Twsc::class,
+            ['callApi']
+        );
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_POST), $this->equalTo($url), $this->equalTo($customer));
+        $client = new Client($twsc);
+        $client->createCustomer($accessToken, $customer);
+    }
+
     public function testGetServiceCards()
     {
         $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);

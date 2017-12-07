@@ -154,8 +154,7 @@ class Client
     public function createRepairObject(
         AccessToken $accessToken,
         RepairObject $repairObject
-    )
-    {
+    ) {
         $relativeUrl = '/customers/' . $repairObject->customer_id . '/objects';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $repairObject);
     }
@@ -168,8 +167,7 @@ class Client
     public function updateRepairObject(
         AccessToken $accessToken,
         RepairObject $repairObject
-    )
-    {
+    ) {
         $relativeUrl = '/customers/' . $repairObject->customer_id . '/objects/' . $repairObject->object_id;
         return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $repairObject);
     }
@@ -255,8 +253,7 @@ class Client
     public function createCustomerPhone(
         AccessToken $accessToken,
         CustomerPhone $customerPhone
-    )
-    {
+    ) {
         $relativeUrl = '/customers/' . $customerPhone->customer_id . '/phone-numbers';
         return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $customerPhone);
     }
@@ -269,8 +266,7 @@ class Client
     public function updateCustomerPhone(
         AccessToken $accessToken,
         CustomerPhone $customerPhone
-    )
-    {
+    ) {
         $relativeUrl = '/customers/' . $customerPhone->customer_id . '/phone-numbers/' . $customerPhone->phone_number_id;
         return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $customerPhone);
     }
@@ -284,6 +280,17 @@ class Client
     {
         $relativeUrl = '/customers/' . $customer->customer_id;
         return $this->provider->callApi($accessToken, Twsc::METHOD_PUT, $relativeUrl, $customer);
+    }
+
+    /**
+     * @param AccessToken $accessToken
+     * @param Customer $customer
+     * @return mixed
+     */
+    public function createCustomer(AccessToken $accessToken, Customer $customer)
+    {
+        $relativeUrl = '/customers';
+        return $this->provider->callApi($accessToken, Twsc::METHOD_POST, $relativeUrl, $customer);
     }
 
     /**

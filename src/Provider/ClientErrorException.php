@@ -26,4 +26,22 @@ class ClientErrorException extends \Exception
         $this->reason = $data['reason'];
         $this->msg_nl = $data['message_nl'];
     }
+
+    /**
+     * Returns reason of ClientErrorException if available
+     * @return string|null
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * Returns message in NL if available
+     * @return string|null
+     */
+    public function getMessageNL()
+    {
+        return $this->msg_nl;
+    }
 }
