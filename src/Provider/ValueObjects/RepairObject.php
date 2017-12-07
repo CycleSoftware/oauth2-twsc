@@ -8,10 +8,12 @@ class RepairObject
     public $object_barcode;
     public $is_active;
     public $object_type_name;
+    public $category;
     public $brand;
     public $model;
     public $model_year;
     public $color;
+    public $variant;
     public $phone_number_id;
     public $license_plate;
     public $km_mileage;

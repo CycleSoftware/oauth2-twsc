@@ -10,7 +10,7 @@ Via Composer
 $ composer require cyclesoftware/oauth2-twsc
 ```
 
-## Usage
+## Usage with authorization grant
 
 Usage scenario is very similar to the one for The League's OAuth client, using `\League\OAuth2\Client\Provider\Twsc` as the provider.
 
@@ -102,6 +102,47 @@ We illustrate creation of RepairObject using Client. Scenario is pretty much as 
         exit('Oh dear...');
     }
 ```   
+
+## Usage with client_credentials grant
+When using a credentials grant the first step is to obtain an AccessToken. 
+``` php
+
+try {
+    $provider = new League\OAuth2\Client\Provider\Twsc([
+        'clientId'     => '{cs-client-id}',
+        'clientSecret' => '{cs-client-secret}',
+    ]);  
+    $access_token = $provider->getAccessToken('client_credentials');
+    $customer = new Customer();
+    $customer->customer_reference = ''; // e.g. your customer number
+    $customer->postcode = '100AM';
+    $customer->house_number = '1';
+    $customer->house_number_postfix = '2';
+    $customer->title = 'Dhr.';
+    $customer->initials = 'A';
+    $customer->insertion = 'van';
+    $customer->name = 'Laak';
+    $customer->street = 'Hoofdweg';
+    $customer->city = 'Amsterdam';
+    $customer->country_code_iso_3166 = 'NL';
+    $customer->email = 'email@mail.com';
+    $customer->discount_percentage = 10;
+    $customer_phones = [];
+    $customer_phone = new CustomerPhone();
+    $customer_phone->phone_number = '+31612345678';
+    $customer_phones[] = $customer_phone;
+    $customer_phone = new CustomerPhone();
+    $customer_phone->phone_number = '+3173030050';
+    $customer_phones[] = $customer_phone;
+    $customer->phone_numbers = $customer_phones;
+    $client = new Client($provider);
+    $result = $client->createCustomer($access_token, $customer);
+} catch(League\OAuth2\Client\Provider\ClientErrorException $e){
+    // ClientErrorException gives you information about what went wrong
+    // echo $e->getMessage();
+    // echo $e->getReason();
+    // echo $e->getMessageNL();
+}
 
 ## Testing
 
