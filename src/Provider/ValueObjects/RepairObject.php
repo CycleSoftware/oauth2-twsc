@@ -23,5 +23,6 @@ class RepairObject
     public $engine_id;
     public $battery_id;
     public $lock_id;
+    public $repair_rate_id;
     public $images;
 }
