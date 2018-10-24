@@ -22,6 +22,7 @@ class Repair
     public $status_id;
     public $status_text;
     public $invoice_number;
+    public $borrowed_object_reference;
     public $total_repair_time_minutes;
     public $custom_repair_time_minutes;
     public $repair_codes = [];
