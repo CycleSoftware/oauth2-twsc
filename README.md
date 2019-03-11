@@ -143,6 +143,77 @@ try {
     // echo $e->getReason();
     // echo $e->getMessageNL();
 }
+```
+
+
+## Create a Repair Order
+``` php
+
+try {
+    $provider = new League\OAuth2\Client\Provider\Twsc([
+        'clientId' => '{cs-client-id}',
+        'clientSecret' => '{cs-client-secret}',
+    ]);
+    $access_token = $provider->getAccessToken('client_credentials');
+    $repair = new Repair();
+    $repair->customer_id = 24;
+    $repair->repair_object_id = 1105;
+    $repair->reference_text = 'some-reference'; // your reference
+    $repair->datetime_scheduled_start = '2019-03-11T15:41:46+01:00';
+    $repair->mechanic_employee_id = 1; // default for TWSC 1
+    $repair->repair_description = 'Some description of the repair order';
+    /**
+     * Status:
+     * STATUS_WAIT_FOR_OBJECT = 1;
+     * STATUS_WAIT_FOR_REPAIR = 2;
+     * STATUS_WAIT_FOR_ARTICLES = 3;
+     * STATUS_IN_REPAIR = 4;
+     * STATUS_WAIT_FOR_CUSTOMER = 5;
+     * STATUS_WAIT_FOR_INVOICE = 6;
+     * STATUS_COMPLETED = 7;
+     * STATUS_DONE = 8;
+     * STATUS_WAIT_FOR_SUPPLIER = 9;
+     * STATUS_WAIT_FOR_OBJECT_ONLINE = 10;
+     * STATUS_WAIT_FOR_INSURANCE = 11;
+     * STATUS_WAIT_FOR_INSURANCE_EXPERT = 12;
+     * STATUS_PICKUP_AT_CUSTOMER = 13;
+     * STATUS_WAIT_FOR_OBJECT_SUPPLIER = 14;
+     * STATUS_CANCELLED = 15;
+     * STATUS_DECLINED = 16;
+     */
+    $repair->status_id = 10; // default: 10  
+    $repair->custom_repair_time_minutes = 0; // time not related to order_items
+
+    // add a normal article
+    $item = new RepairOrderItem();
+    $item->item_type_id = 1; // 1: Article, 4: RepairCode
+    $item->special_type_id = 1;
+    $item->quantity = 1;
+    $item->barcode = '8712812812';
+    $item->pos_group_id = 2; // 2: Repair, 21: Parts
+    $item->description = 'In- en uitbouwen electromotor in- en uitbouwen accu';
+    $item->unit_price_in_vat_cents = 12100;
+    $item->unit_discount_amount_in_vat_cents = 0;
+    $item->price_in_vat_cents = 12100;
+    $item->discount_percentage = 0;
+    $item->vat_code = 2; // 1: LOW VAT; 2: HIGH VAT, 0: NO VAT
+    $item->vat_percentage = 21.0;
+    $item->vat_amount_cents = 2100;
+    $item->item_status_id = 0; // 0: No status, 1: Ordered at supplier 2: Ready for pickup 3: Delivered 4: Picked up 5: Cancelled
+    $item->unit_work_time_minutes = 15;
+    $repair->order_items[] = $item;
+
+    $client = new Client($provider);
+    $result = $client->createRepair($access_token, $repair);
+}
+catch (League\OAuth2\Client\Provider\ClientErrorException $e) {
+    // ClientErrorException gives you information about what went wrong
+    // echo $e->getMessage();
+    // echo $e->getReason();
+    // echo $e->getMessageNL();
+}
+```
+
 
 ## Testing
 
