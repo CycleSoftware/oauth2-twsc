@@ -2,13 +2,13 @@
 
 namespace League\OAuth2\Client\Test\Provider;
 
-use League\OAuth2\Client\Provider\ServerErrorException;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\TwscResourceOwner;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 
-class TwscTest extends \PHPUnit_Framework_TestCase
+class TwscTest extends TestCase
 {
     /**
      * @var Twsc
@@ -42,10 +42,11 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
-        $provider = $this->getMock(
-            Twsc::class,
-            ['createRequest', 'getResponse']
-        );
+        $provider = $this->getMockBuilder(
+            Twsc::class)
+            ->setMethods(
+                ['createRequest', 'getResponse']
+            )->getMock();
         $provider->expects($this->once())
             ->method('createRequest')
             ->with(
@@ -79,10 +80,11 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
-        $provider = $this->getMock(
-            Twsc::class,
-            ['createRequest', 'getResponse']
-        );
+        $provider = $this->getMockBuilder(
+            Twsc::class)
+            ->setMethods(
+                ['createRequest', 'getResponse']
+            )->getMock();
         $provider->expects($this->once())
             ->method('createRequest')
             ->with(
@@ -116,10 +118,11 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
-        $provider = $this->getMock(
-            Twsc::class,
-            ['createRequest', 'getResponse']
-        );
+        $provider = $this->getMockBuilder(
+            Twsc::class)
+            ->setMethods(
+                ['createRequest', 'getResponse']
+            )->getMock();
         $provider->expects($this->once())
             ->method('createRequest')
             ->with(
@@ -156,10 +159,11 @@ class TwscTest extends \PHPUnit_Framework_TestCase
         $stream->shouldReceive('getContents')->times(1)->andReturn(json_encode($result));
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
-        $provider = $this->getMock(
-            Twsc::class,
-            ['createRequest', 'getResponse']
-        );
+        $provider = $this->getMockBuilder(
+            Twsc::class)
+            ->setMethods(
+                ['createRequest', 'getResponse']
+            )->getMock();
         $provider->expects($this->once())
             ->method('createRequest')
             ->with(
