@@ -315,4 +315,14 @@ class Client
         $relativeUrl = '/customers/' . $customerId . '/service-cards/' . $serviceCardId;
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
     }
+
+    /**
+     * @param AccessToken $accessToken
+     * @return mixed
+     */
+    public function getWorkshopInfo(AccessToken $accessToken)
+    {
+        $relativeUrl = '/workshop/info';
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+    }
 }

@@ -133,14 +133,14 @@ class Twsc extends AbstractProvider
      *
      * @throws IdentityProviderException
      * @param  ResponseInterface $response
-     * @param  string $data Parsed response data
+     * @param  array $data Parsed response data
      * @return void
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
         if ($response->getStatusCode() >= 400) {
             throw new IdentityProviderException(
-                $data['message'] ?: $response->getReasonPhrase(),
+                isset($data['message']) ? $data['message'] : $response->getReasonPhrase(),
                 $response->getStatusCode(),
                 $response
             );
