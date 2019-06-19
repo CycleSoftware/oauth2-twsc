@@ -214,6 +214,10 @@ catch (League\OAuth2\Client\Provider\ClientErrorException $e) {
 }
 ```
 
+## Update a Repair Order With Order items
+
+Make sure that service_items and repair_codes have the value null. Only the order_items provider in the array order_items are updated. When adding items, leave item_id=null.
+
 
 ## Testing
 
