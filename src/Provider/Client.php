@@ -176,8 +176,11 @@ class Client
      * @param AccessToken $accessToken
      * @return mixed
      */
-    public function getWorkshopTimes(AccessToken $accessToken)
+    public function getWorkshopTimes(AccessToken $accessToken, $day_count = null)
     {
+        if ($day_count !== null) {
+            return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times?day_count='.(int)$day_count);    
+        }
         return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times');
     }
 
