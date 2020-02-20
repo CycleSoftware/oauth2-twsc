@@ -220,6 +220,33 @@ Make sure that service_items and repair_codes have the value null.
 Only the order_item provided in the array order_items are updated. When adding new order items, leave item_id=null.
 When an existing order_item is omitted in the PUT, it will not be deleted or updated. To cancel an item use item_status_id=5
 
+## Find a customer to prevent duplicates
+When creating customers try to avoid creating new customers by keeping an index of created customers and reuse the customer-id or by finding a customer based on unique identifiers such as phone-number or email.
+
+``` php
+
+try {
+    $provider = new League\OAuth2\Client\Provider\Twsc([
+        'clientId' => '{cs-client-id}',
+        'clientSecret' => '{cs-client-secret}',
+    ]);
+    $access_token = $provider->getAccessToken('client_credentials');
+
+    $client = new Client($provider);
+    $result = $client->findCustomers($token, ['phone_number' => '0733030050']);
+    var_dump($result);
+    if(empty($result)){
+        $result = $client->findCustomers($token, ['email' => 'example@domain.nl']);
+    }
+    var_dump($result);
+}
+catch (League\OAuth2\Client\Provider\ClientErrorException $e) {
+    // ClientErrorException gives you information about what went wrong
+    // echo $e->getMessage();
+    // echo $e->getReason();
+    // echo $e->getMessageNL();
+}
+```
 
 ## Testing
 
