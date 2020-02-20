@@ -297,6 +297,26 @@ class Client
     }
 
     /**
+     * @param AccessToken $access_token
+     * @param array<string, string> $parameters
+     * $parameters['postal_code'] Postalcode of address customer
+     * $parameters['housenumber'] House number of address customer
+     * $parameters['housenumber_postfix'] House number postfix of address customer
+     * $parameters['email'] E-mail address of the customer
+     * $parameters['phone_number'] Phonenumber of the customer
+     * $parameters['country_code'] ISO country codeof the customer
+     * @return object[]
+     */
+    public function findCustomers(AccessToken $accessToken, array $parameters)
+    {
+        if(empty($parameters)){
+            throw new \BadMethodCallException('No find parameters given');
+        }
+        $relativeUrl = '/customers/find?'.\http_build_query($parameters);
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, $relativeUrl);
+    }
+
+    /**
      * @param AccessToken $accessToken
      * @param int $customerId
      * @return mixed

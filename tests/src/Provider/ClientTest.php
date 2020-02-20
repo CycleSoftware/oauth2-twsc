@@ -391,6 +391,24 @@ class ClientTest extends TestCase
         $client->createCustomer($accessToken, $customer);
     }
 
+    public function testFindCustomers()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/find';
+        $twsc = $this->getMockBuilder(
+            Twsc::class
+        )->setMethods(
+            ['callApi']
+        )->getMock();
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url . '?phone_number=0733030050'))
+            ->will($this->returnValue([new Customer()]));
+        $client = new Client($twsc);
+        $array_of_objects = $client->findCustomers($accessToken, ['phone_number' => '0733030050']);
+        $this->assertCount(1, $array_of_objects);
+    }
+
     public function testGetServiceCards()
     {
         $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
