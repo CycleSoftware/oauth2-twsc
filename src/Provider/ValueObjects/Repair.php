@@ -1,4 +1,5 @@
 <?php
+
 namespace League\OAuth2\Client\Provider\ValueObjects;
 
 class Repair
@@ -91,6 +92,12 @@ class Repair
      * @var  int
      */
     public $custom_repair_time_minutes;
+
+    /**
+     * @var int
+     */
+    public $delivery_method_id = 0;
+
     /**
      * @var string[]
      */
@@ -103,4 +110,5 @@ class Repair
      * @var RepairOrderItem[]
      */
     public $order_items = [];
+
 }
