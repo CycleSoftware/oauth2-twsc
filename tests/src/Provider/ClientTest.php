@@ -226,7 +226,7 @@ class ClientTest extends TestCase
     public function testGetWorkshopTimesPerStore()
     {
         $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
-        $url = '/workshop/times/stores';
+        $url = '/workshop/times-per-store';
         $twsc = $this->getMockBuilder(
             Twsc::class
         )->setMethods(
