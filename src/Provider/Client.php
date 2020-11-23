@@ -191,9 +191,9 @@ class Client
     public function getWorkshopTimesPerStore(AccessToken $accessToken, $day_count = null)
     {
         if ($day_count !== null) {
-            return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times/stores?day_count='.(int)$day_count);
+            return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times-per-store?day_count='.(int)$day_count);
         }
-        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times/stores');
+        return $this->provider->callApi($accessToken, Twsc::METHOD_GET, '/workshop/times-per-store');
     }
 
     /**
