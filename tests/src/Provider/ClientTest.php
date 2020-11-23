@@ -223,6 +223,22 @@ class ClientTest extends TestCase
         $client->getWorkshopTimes($accessToken);
     }
 
+    public function testGetWorkshopTimesPerStore()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/workshop/times/stores';
+        $twsc = $this->getMockBuilder(
+            Twsc::class
+        )->setMethods(
+            ['callApi']
+        )->getMock();
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
+        $client = new Client($twsc);
+        $client->getWorkshopTimesPerStore($accessToken);
+    }
+
     public function testGetRepairCodes()
     {
         $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
