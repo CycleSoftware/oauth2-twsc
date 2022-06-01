@@ -9,6 +9,7 @@ class Customer
     public $title;
     public $attn;
     public $initials;
+    public $first_name;
     public $insertion;
     public $name;
     public $street;
