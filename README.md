@@ -1,3 +1,6 @@
+# This client is deprecated.
+Please refer to [CycleSoftware documentation](https://docs.cyclesoftware.nl/).
+
 # CycleSoftware Twsc Provider and Client for accessing TWSC Api Resources
 
 This package provides CycleSoftware TWSC Api support using PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
