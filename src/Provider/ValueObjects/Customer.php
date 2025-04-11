@@ -1,6 +1,7 @@
 <?php
 namespace League\OAuth2\Client\Provider\ValueObjects;
 
+#[\AllowDynamicProperties]
 class Customer
 {
     public $customer_id;
@@ -23,4 +24,7 @@ class Customer
     public $datetime_created;
     /** @var  CustomerPhone[] $phone_numbers */
     public $phone_numbers;
+    public $company_name;
+    public $coc_number;
+    public $vat_number;
 }
