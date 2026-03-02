@@ -17,6 +17,9 @@ class RepairObject
     public $phone_number_id;
     public $license_plate;
     public $km_mileage;
+    public $lease_contract_number;
+    public $lease_employer_customer_id;
+    public $lease_fleet_customer_id;
     public $frame_id;
     public $chip_id;
     public $key_id;
