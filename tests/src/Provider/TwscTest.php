@@ -21,7 +21,7 @@ class TwscTest extends TestCase
      * @var Twsc
      */
     protected $provider;
-    protected $apiVersion = 'v1';
+    protected $apiVersion = 'v2';
 
     protected function setUp(): void
     {
@@ -270,7 +270,7 @@ class TwscTest extends TestCase
             $provider->getBaseAccessTokenUrl([])
         );
         $this->assertEquals(
-            $provider->getBaseTwscApiUrl() . '/v1/profile/me',
+            $provider->getBaseTwscApiUrl() . '/' . $this->apiVersion . '/profile/me',
             $provider->getResourceOwnerDetailsUrl($token)
         );
         $this->assertEquals(
@@ -487,6 +487,20 @@ class TwscTest extends TestCase
         $this->assertSame('https://accounts.example.test/oauth/authorize', $provider->getBaseAuthorizationUrl());
         $this->assertSame('https://accounts.example.test/oauth/token', $provider->getBaseAccessTokenUrl([]));
         $this->assertSame('https://api.example.test/v2/profile/me', $provider->getResourceOwnerDetailsUrl($token));
+    }
+
+    public function testConstructorAcceptsCamelCaseApiVersion()
+    {
+        $provider = new Twsc(['apiVersion' => 'v9']);
+
+        $this->assertSame('v9', $provider->getApiVersion());
+    }
+
+    public function testSnakeCaseApiVersionWinsOverCamelCase()
+    {
+        $provider = new Twsc(['apiVersion' => 'v9', 'api_version' => 'v3']);
+
+        $this->assertSame('v3', $provider->getApiVersion());
     }
 
     public function testConstructorDefaults()

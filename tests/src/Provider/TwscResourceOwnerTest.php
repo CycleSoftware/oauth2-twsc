@@ -31,6 +31,17 @@ class TwscResourceOwnerTest extends TestCase
         $this->assertSame($response, $owner->toArray());
     }
 
+    public function testGettersReturnNullForMissingKeys()
+    {
+        $owner = new TwscResourceOwner(['id' => 1]);
+
+        $this->assertSame(1, $owner->getId());
+        $this->assertNull($owner->getEmail());
+        $this->assertNull($owner->getFirstName());
+        $this->assertNull($owner->getLastName());
+        $this->assertNull((new TwscResourceOwner([]))->getId());
+    }
+
     public function testGettersReturnNullForEmptyValues()
     {
         $owner = new TwscResourceOwner([
