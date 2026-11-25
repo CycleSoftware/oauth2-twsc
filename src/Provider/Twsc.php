@@ -62,7 +62,7 @@ class Twsc extends AbstractProvider
             $options = [];
             $options['headers'] = $this->getDefaultHeaders();
             if ($method === self::METHOD_PUT || $method === self::METHOD_POST) {
-                $options['headers'] = ['Content-Type' => 'application/json'];
+                $options['headers']['Content-Type'] = 'application/json';
                 $options['body'] = json_encode($body);
             }
             $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;
