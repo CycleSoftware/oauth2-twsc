@@ -28,7 +28,7 @@ class Twsc extends AbstractProvider
      * Constructs an OAuth 2.0 service provider.
      *
      * @param array $options An array of options to set on this provider.
-     *     Options include `clientId`, `clientSecret`, `redirectUri`, `state`, `api_version`.
+     *     Options include `clientId`, `clientSecret`, `redirectUri`, `state`, `api_version` (or `apiVersion`).
      *     Individual providers may introduce more options, as needed.
      * @param array $collaborators An array of collaborators that may be used to
      *     override this provider's default behavior. Collaborators include
@@ -38,6 +38,11 @@ class Twsc extends AbstractProvider
     public function __construct(array $options = [], array $collaborators = [])
     {
         parent::__construct($options, $collaborators);
+
+        // Support camelCase alias, consistent with the league options (clientId, redirectUri, ...)
+        if (isset($options['apiVersion']) && !isset($options['api_version'])) {
+            $options['api_version'] = $options['apiVersion'];
+        }
 
         foreach ($options as $option => $value) {
             if (property_exists($this, $option)) {
@@ -62,7 +67,7 @@ class Twsc extends AbstractProvider
             $options = [];
             $options['headers'] = $this->getDefaultHeaders();
             if ($method === self::METHOD_PUT || $method === self::METHOD_POST) {
-                $options['headers'] = ['Content-Type' => 'application/json'];
+                $options['headers']['Content-Type'] = 'application/json';
                 $options['body'] = json_encode($body);
             }
             $uri = $this->base_twsc_api_url . '/' . $this->api_version . $url;

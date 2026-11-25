@@ -28,7 +28,7 @@ class TwscResourceOwner implements ResourceOwnerInterface
      */
     public function getId()
     {
-        return $this->response['id'] ?: null;
+        return ($this->response['id'] ?? null) ?: null;
     }
 
     /**
@@ -38,7 +38,7 @@ class TwscResourceOwner implements ResourceOwnerInterface
      */
     public function getEmail()
     {
-        return $this->response['email'] ?: null;
+        return ($this->response['email'] ?? null) ?: null;
     }
 
     /**
@@ -48,7 +48,7 @@ class TwscResourceOwner implements ResourceOwnerInterface
      */
     public function getFirstName()
     {
-        return $this->response['firstname'] ?: null;
+        return ($this->response['firstname'] ?? null) ?: null;
     }
 
     /**
@@ -58,7 +58,7 @@ class TwscResourceOwner implements ResourceOwnerInterface
      */
     public function getLastName()
     {
-        return $this->response['lastname'] ?: null;
+        return ($this->response['lastname'] ?? null) ?: null;
     }
 
 

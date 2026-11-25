@@ -14,7 +14,7 @@ class ClientTest extends TestCase
 {
     protected $apiVersion = 'v1';
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
         parent::tearDown();
@@ -26,7 +26,7 @@ class ClientTest extends TestCase
         $url = '/workshop/rate/1';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -42,7 +42,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/invoices?offset=12';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -58,7 +58,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/invoices/20';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -74,7 +74,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/repairs?offset=12';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -90,7 +90,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/repairs/20';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -106,7 +106,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/repairs';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -128,7 +128,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/repairs/3322';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -144,7 +144,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/objects';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -160,7 +160,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/objects/2000';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -176,7 +176,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/objects';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -197,7 +197,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/objects/20';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -213,7 +213,7 @@ class ClientTest extends TestCase
         $url = '/workshop/times';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -229,7 +229,7 @@ class ClientTest extends TestCase
         $url = '/workshop/times-per-store';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -245,7 +245,7 @@ class ClientTest extends TestCase
         $url = '/workshop/repair-codes';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -261,7 +261,7 @@ class ClientTest extends TestCase
         $url = '/profile/me';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -277,7 +277,7 @@ class ClientTest extends TestCase
         $url = '/profile/me/details';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -293,7 +293,7 @@ class ClientTest extends TestCase
         $url = '/profile/me';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -309,7 +309,7 @@ class ClientTest extends TestCase
         $url = '/profile/me/customers';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -325,7 +325,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -341,7 +341,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/phone-numbers';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -359,7 +359,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/phone-numbers/1';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -380,7 +380,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -397,7 +397,7 @@ class ClientTest extends TestCase
         $url = '/customers';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -413,7 +413,7 @@ class ClientTest extends TestCase
         $url = '/customers/find';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -431,7 +431,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/service-cards';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -447,7 +447,7 @@ class ClientTest extends TestCase
         $url = '/customers/1000/service-cards/20';
         $twsc = $this->getMockBuilder(
             Twsc::class
-        )->setMethods(
+        )->onlyMethods(
             ['callApi']
         )->getMock();
         $twsc->expects($this->once())
@@ -455,5 +455,186 @@ class ClientTest extends TestCase
             ->with($this->equalTo($accessToken), $this->equalTo(Twsc::METHOD_GET), $this->equalTo($url));
         $client = new Client($twsc);
         $client->getServiceCard($accessToken, 1000, 20);
+    }
+
+    /**
+     * Builds a Twsc mock that expects exactly one callApi call with the given arguments.
+     */
+    private function expectCallApi($accessToken, $method, $url, $body = null, $returnValue = null)
+    {
+        $twsc = $this->getMockBuilder(Twsc::class)->onlyMethods(['callApi'])->getMock();
+        $args = [$this->identicalTo($accessToken), $this->equalTo($method), $this->equalTo($url)];
+        if (func_num_args() >= 4) {
+            $args[] = $this->equalTo($body);
+        }
+        $twsc->expects($this->once())
+            ->method('callApi')
+            ->with(...$args)
+            ->willReturn($returnValue);
+        return $twsc;
+    }
+
+    public function testConstructorStoresProvider()
+    {
+        $twsc = $this->getMockBuilder(Twsc::class)->onlyMethods(['callApi'])->getMock();
+        $client = new Client($twsc);
+        $this->assertSame($twsc, $client->provider);
+    }
+
+    public function testCreateRatingPassesRatingAsBody()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $rating = ['score' => 5, 'comment' => 'Top'];
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_POST, '/workshop/rate/7', $rating, ['ok' => true]);
+        $client = new Client($twsc);
+        $this->assertSame(['ok' => true], $client->createRating($accessToken, 7, $rating));
+    }
+
+    public function testGetInvoicesDefaultOffsetIsZero()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/customers/1000/invoices?offset=0');
+        (new Client($twsc))->getInvoices($accessToken, 1000);
+    }
+
+    public function testGetInvoicesNegativeOffsetIsClampedToZero()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/customers/1000/invoices?offset=0');
+        (new Client($twsc))->getInvoices($accessToken, 1000, -5);
+    }
+
+    public function testGetRepairsDefaultOffsetIsZero()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/customers/1000/repairs?offset=0');
+        (new Client($twsc))->getRepairs($accessToken, 1000);
+    }
+
+    public function testGetRepairsNegativeOffsetIsClampedToZero()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/customers/1000/repairs?offset=0');
+        (new Client($twsc))->getRepairs($accessToken, 1000, -1);
+    }
+
+    public function testCreateRepairPassesRepairAsBody()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $repair = new Repair();
+        $repair->customer_id = 1000;
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_POST, '/customers/1000/repairs', $repair);
+        (new Client($twsc))->createRepair($accessToken, $repair);
+    }
+
+    public function testGetRepairObjectsForProfileDefaultsToMe()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/profile/me/objects', null, [['object_id' => 1]]);
+        $result = (new Client($twsc))->getRepairObjectsForProfile($accessToken);
+        $this->assertSame([['object_id' => 1]], $result);
+    }
+
+    public function testGetRepairObjectsForProfileWithCustomProfileId()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/profile/abc-123/objects');
+        (new Client($twsc))->getRepairObjectsForProfile($accessToken, 'abc-123');
+    }
+
+    public function testGetWorkshopTimesWithDayCount()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/workshop/times?day_count=14');
+        (new Client($twsc))->getWorkshopTimes($accessToken, 14);
+    }
+
+    public function testGetWorkshopTimesCastsDayCountToInt()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/workshop/times?day_count=7');
+        (new Client($twsc))->getWorkshopTimes($accessToken, '7abc');
+    }
+
+    public function testGetWorkshopTimesPerStoreWithDayCount()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/workshop/times-per-store?day_count=3');
+        (new Client($twsc))->getWorkshopTimesPerStore($accessToken, 3);
+    }
+
+    public function testGetWorkshopTimesPerStoreWithZeroDayCount()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/workshop/times-per-store?day_count=0');
+        (new Client($twsc))->getWorkshopTimesPerStore($accessToken, 0);
+    }
+
+    public function testGetWorkshopInfo()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/workshop/info', null, ['name' => 'Shop']);
+        $this->assertSame(['name' => 'Shop'], (new Client($twsc))->getWorkshopInfo($accessToken));
+    }
+
+    /**
+     * @dataProvider customProfileIdProvider
+     */
+    public function testProfileMethodsWithCustomProfileId($clientMethod, $httpMethod, $expectedUrl)
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $twsc = $this->expectCallApi($accessToken, $httpMethod, $expectedUrl);
+        (new Client($twsc))->{$clientMethod}($accessToken, '42');
+    }
+
+    public function customProfileIdProvider()
+    {
+        return [
+            'getProfile' => ['getProfile', Twsc::METHOD_GET, '/profile/42'],
+            'getProfileDetails' => ['getProfileDetails', Twsc::METHOD_GET, '/profile/42/details'],
+            'deleteProfile' => ['deleteProfile', Twsc::METHOD_DELETE, '/profile/42'],
+            'getProfileCustomers' => ['getProfileCustomers', Twsc::METHOD_GET, '/profile/42/customers'],
+        ];
+    }
+
+    public function testCreateCustomerPhonePassesPhoneAsBody()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $phone = new CustomerPhone();
+        $phone->customer_id = 1000;
+        $phone->phone_number = '0612345678';
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_POST, '/customers/1000/phone-numbers', $phone);
+        (new Client($twsc))->createCustomerPhone($accessToken, $phone);
+    }
+
+    public function testFindCustomersWithoutParametersThrows()
+    {
+        $twsc = $this->getMockBuilder(Twsc::class)->onlyMethods(['callApi'])->getMock();
+        $twsc->expects($this->never())->method('callApi');
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No find parameters given');
+        (new Client($twsc))->findCustomers($accessToken, []);
+    }
+
+    public function testFindCustomersEncodesMultipleParameters()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $url = '/customers/find?postal_code=1234+AB&housenumber=10&email=john%40e.mail';
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, $url);
+        (new Client($twsc))->findCustomers($accessToken, [
+            'postal_code' => '1234 AB',
+            'housenumber' => '10',
+            'email' => 'john@e.mail',
+        ]);
+    }
+
+    public function testGetCustomerReturnsProviderResult()
+    {
+        $accessToken = m::mock(\League\OAuth2\Client\Token\AccessToken::class);
+        $data = ['customer_id' => 1000, 'name' => 'Smith'];
+        $twsc = $this->expectCallApi($accessToken, Twsc::METHOD_GET, '/customers/1000', null, $data);
+        $this->assertSame($data, (new Client($twsc))->getCustomer($accessToken, 1000));
     }
 }
