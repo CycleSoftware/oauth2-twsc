@@ -2,6 +2,7 @@
 
 namespace League\OAuth2\Client\Test\Provider;
 
+use GuzzleHttp\Psr7\Utils;
 use League\OAuth2\Client\Provider\Twsc;
 use League\OAuth2\Client\Provider\TwscResourceOwner;
 use League\OAuth2\Client\Provider\ValueObjects\Repair;
@@ -16,7 +17,7 @@ class TwscTest extends TestCase
     protected $provider;
     protected $apiVersion = 'v1';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->provider = new \League\OAuth2\Client\Provider\Twsc(
             [
@@ -27,7 +28,7 @@ class TwscTest extends TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
         parent::tearDown();
@@ -44,7 +45,7 @@ class TwscTest extends TestCase
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
         $provider = $this->getMockBuilder(
             Twsc::class)
-            ->setMethods(
+            ->onlyMethods(
                 ['createRequest', 'getResponse']
             )->getMock();
         $provider->expects($this->once())
@@ -82,7 +83,7 @@ class TwscTest extends TestCase
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
         $provider = $this->getMockBuilder(
             Twsc::class)
-            ->setMethods(
+            ->onlyMethods(
                 ['createRequest', 'getResponse']
             )->getMock();
         $provider->expects($this->once())
@@ -95,7 +96,8 @@ class TwscTest extends TestCase
                         'body' => json_encode($body),
                         'headers' => [
                             'Accept' => 'application/json',
-                            'Accept-Encoding' => 'gzip'
+                            'Accept-Encoding' => 'gzip',
+                            'Content-Type' => 'application/json'
                         ]]
                 )
             )
@@ -120,7 +122,7 @@ class TwscTest extends TestCase
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
         $provider = $this->getMockBuilder(
             Twsc::class)
-            ->setMethods(
+            ->onlyMethods(
                 ['createRequest', 'getResponse']
             )->getMock();
         $provider->expects($this->once())
@@ -133,7 +135,8 @@ class TwscTest extends TestCase
                     'body' => json_encode($body),
                     'headers' => [
                         'Accept' => 'application/json',
-                        'Accept-Encoding' => 'gzip'
+                        'Accept-Encoding' => 'gzip',
+                            'Content-Type' => 'application/json'
                     ]
                 ])
             )
@@ -146,12 +149,10 @@ class TwscTest extends TestCase
         $this->assertEquals($result, $resultReturned);
     }
 
-    /**
-     * @expectedException \League\OAuth2\Client\Provider\ClientErrorException
-     * @expectedExceptionMessage Server error
-     */
     public function testCallApiShouldThrowServerError()
     {
+        $this->expectException(\League\OAuth2\Client\Provider\ClientErrorException::class);
+        $this->expectExceptionMessage('Server error');
         $result = ['error' => true, 'message' => 'Server error', 'message_nl' => 'NL'];
         $accessToken = m::mock('League\OAuth2\Client\Token\AccessToken');
         $request = m::mock('Psr\Http\Message\ServerRequestInterface');
@@ -161,7 +162,7 @@ class TwscTest extends TestCase
         $response->shouldReceive('getBody')->times(1)->andReturn($stream);
         $provider = $this->getMockBuilder(
             Twsc::class)
-            ->setMethods(
+            ->onlyMethods(
                 ['createRequest', 'getResponse']
             )->getMock();
         $provider->expects($this->once())
@@ -202,7 +203,7 @@ class TwscTest extends TestCase
     {
         $options = ['scope' => [uniqid(), uniqid()]];
         $url = $this->provider->getAuthorizationUrl($options);
-        $this->assertContains(urlencode(implode(',', $options['scope'])), $url);
+        $this->assertStringContainsString(urlencode(implode(',', $options['scope'])), $url);
     }
 
     public function testGetAuthorizationUrl()
@@ -224,7 +225,7 @@ class TwscTest extends TestCase
     {
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->andReturn(
-            '{"access_token":"mock_access_token", "scope":"repo,gist", "token_type":"bearer"}'
+            Utils::streamFor('{"access_token":"mock_access_token", "scope":"repo,gist", "token_type":"bearer"}')
         );
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
@@ -246,7 +247,7 @@ class TwscTest extends TestCase
 
         $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn(
-            'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}'
+            Utils::streamFor('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}')
         );
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
@@ -283,13 +284,13 @@ class TwscTest extends TestCase
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn(
-            'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}'
+            Utils::streamFor('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}')
         );
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $postResponse->shouldReceive('getStatusCode')->andReturn(200);
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $userResponse->shouldReceive('getBody')->andReturn(
-            '{"id": ' . $userId . ', "firstname": "' . $firstName . '", "lastname": "' . $lastName . '", "email": "' . $email . '", "premium": "' . $premium . '"}'
+            Utils::streamFor('{"id": ' . $userId . ', "firstname": "' . $firstName . '", "lastname": "' . $lastName . '", "email": "' . $email . '", "premium": "' . $premium . '"}')
         );
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $userResponse->shouldReceive('getStatusCode')->andReturn(200);
@@ -311,16 +312,14 @@ class TwscTest extends TestCase
         $this->assertEquals($email, $user->toArray()['email']);
     }
 
-    /**
-     * @expectedException \League\OAuth2\Client\Provider\Exception\IdentityProviderException
-     **/
     public function testExceptionThrownWhenErrorObjectReceived()
     {
+        $this->expectException(\League\OAuth2\Client\Provider\Exception\IdentityProviderException::class);
         $message = uniqid();
         $status = rand(400, 600);
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $postResponse->shouldReceive('getBody')->andReturn(' {"message":"' . $message . '"}');
+        $postResponse->shouldReceive('getBody')->andReturn(Utils::streamFor(' {"message":"' . $message . '"}'));
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $postResponse->shouldReceive('getStatusCode')->andReturn($status);
 
